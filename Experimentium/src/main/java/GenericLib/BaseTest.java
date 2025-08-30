@@ -23,22 +23,23 @@ public class BaseTest implements IAutoConstants{
 		String browser = fl.readPropData(PROP_PATH, "browser");
 		if (browser.equalsIgnoreCase("chrome")) {
 			ChromeOptions options = new ChromeOptions();
-			driver = new ChromeDriver(options);
-			//options.addArguments("--start-maximized");
 			options.addArguments("--remote-allow-origins=*");
+			driver = new ChromeDriver(options);
+			
 		}
 
 		else if (browser.equalsIgnoreCase("firefox")) {
 			FirefoxOptions options = new FirefoxOptions();
+			options.addArguments("--remote-allow-origins=*");
 		    driver = new FirefoxDriver(options);
 		    //options.addArguments("--start-maximized");
-		    options.addArguments("--remote-allow-origins=*");
+		    
 		}
 		
 		else if (browser.equalsIgnoreCase("edge")) {
 			EdgeOptions options = new EdgeOptions();
+			options.addArguments("--remote-allow-origins=*");
 		    driver = new EdgeDriver(options);
-		    //options.addArguments("--start-maximized");
 		}
 
 		else {
@@ -58,7 +59,7 @@ public class BaseTest implements IAutoConstants{
 				//fl.readPropData(PROP_PATH, "loginTitle"), "Home Page");
 	}
 
-	@AfterClass(enabled=true)
+	@AfterClass(enabled=false)
 	public void closeBrowser() {	
 		driver.quit();
 	}

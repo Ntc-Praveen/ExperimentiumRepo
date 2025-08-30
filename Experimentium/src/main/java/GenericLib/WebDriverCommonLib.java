@@ -31,6 +31,7 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -47,20 +48,37 @@ import org.testng.Reporter;
 
 public class WebDriverCommonLib {
 	
-	
-	public String getSysDate() 
-	{
 	DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	LocalDateTime localDate = LocalDateTime.now();
 	String SysDate = dateFormat.format(localDate);
-	return SysDate;
+	
+	Date date = new Date();
+	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	String SysTime = sdf.format(date);
+		
+	public String getSysDate() 
+	{	
+		 Date date = new Date();
+		 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		 String SysDate = sdf.format(date);
+		Reporter.log("Current System Date is: " + SysDate, true);
+		return SysDate;
+	}
+	
+	public String getSysTime() {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		String SysTime = sdf.format(date);
+		Reporter.log("Current System Time is: " + SysTime, true);
+		return SysTime;
 	}
 	
 	public String getTimeStamp() {
-	SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	Date newDate = new Date();
-	String TimeStamp = formatter.format(newDate);
-	return TimeStamp;
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		String TimeStamp = sdf.format(date);
+		Reporter.log("Current Time Stamp is: " + TimeStamp, true);
+		return TimeStamp;
 	}
 	
 	public String getPageTitle()
@@ -74,9 +92,43 @@ public class WebDriverCommonLib {
 		wait.until(ExpectedConditions.titleContains(title));
 	}
 	
+	public void waitForElement(WebElement element) {
+		WebDriverWait wait = new WebDriverWait(BaseTest.driver, Duration.ofSeconds(20));
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
+	
 	public void dismissAlert() {
-		WebDriverWait wait = new WebDriverWait(BaseTest.driver, Duration.ofSeconds(5));
-	    wait.until(ExpectedConditions.alertIsPresent()).dismiss();
+		WebDriverWait wait = new WebDriverWait(BaseTest.driver, Duration.ofSeconds(10));
+	    Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+	    alert.dismiss();
+	}
+	
+	public void acceptAlert() {
+		WebDriverWait wait = new WebDriverWait(BaseTest.driver, Duration.ofSeconds(10));
+		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+		alert.accept();
+	}
+	
+	public String getAlertText() {
+		WebDriverWait wait = new WebDriverWait(BaseTest.driver, Duration.ofSeconds(10));
+		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+		String alertText = alert.getText();
+		return alertText;
+	}
+	
+	public void waitForElementToBeClickable(WebElement element) {
+		WebDriverWait wait = new WebDriverWait(BaseTest.driver, Duration.ofSeconds(20));
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+	}
+	
+	public void waitForElementToBeVisible(WebElement element) {
+		WebDriverWait wait = new WebDriverWait(BaseTest.driver, Duration.ofSeconds(20));
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
+
+	public void waitForElementToBeInvisible(WebElement element) {
+		WebDriverWait wait = new WebDriverWait(BaseTest.driver, Duration.ofSeconds(20));
+		wait.until(ExpectedConditions.invisibilityOf(element));
 	}
 	
 	public void dummyText(String page) {
@@ -226,6 +278,12 @@ public class WebDriverCommonLib {
 		    r.keyPress(KeyEvent.VK_ESCAPE);
 		    r.keyRelease(KeyEvent.VK_ESCAPE);
 		    Reporter.log("Print window is closed", true);
+	}
+
+		
+    
+	public void switchToFrame(WebElement element) {
+		BaseTest.driver.switchTo().frame(element);
 	}
     
     public void fileUpload(String filePath, String elementXPath) 
