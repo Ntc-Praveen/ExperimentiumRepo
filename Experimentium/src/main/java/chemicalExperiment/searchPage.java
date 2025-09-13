@@ -101,11 +101,12 @@ public class searchPage {
 		return Remote;
 	}
 	
+	FileLib fl = new FileLib();
+	WebDriverCommonLib wc = new WebDriverCommonLib();
+	
 	public void readData() throws Throwable
 	{
-		FileLib fl = new FileLib();
-		WebDriverCommonLib wc = new WebDriverCommonLib();
-
+		
 		String filePath = "C:\\Users\\dell\\eclipse-workspace\\Experimentium\\Data\\Excelone.xlsx.";
 		String sheetName = "sheet1";
 
@@ -145,7 +146,7 @@ public class searchPage {
 	}
 	public void SelectCouse() throws Throwable 
 	{
-		FileLib fl=new FileLib();
+		//FileLib fl=new FileLib();
 		String filePath="C:\\Users\\dell\\eclipse-workspace\\Experimentium\\Data\\Excelone.xlsx.";
 		String sheetName="sheet1";
 		WebElement[] elements= {inChemistry, geChemistryI, geChemistryII, OrChemistry, bioChemistry};
@@ -174,7 +175,7 @@ public class searchPage {
 	
 	public void Hazardlevel() throws Throwable
 	{
-		FileLib fl=new FileLib();
+		//FileLib fl=new FileLib();
 		String filePath="C:\\Users\\dell\\eclipse-workspace\\Experimentium\\Data\\Excelone.xlsx.";
 		String sheetName="sheet1";
 		WebElement[] elements= {hRequired, benchTop, lowAnywhere, moderateinLab, highFumehood};
